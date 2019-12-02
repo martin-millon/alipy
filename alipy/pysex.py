@@ -20,7 +20,7 @@ Usage:
                     conf_args={'PHOT_APERTURES':5})
     print(cat['FLUX_APER'])
 """
-from __future__ import print_function
+
 import os
 import shutil
 import asciidata

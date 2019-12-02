@@ -1,4 +1,4 @@
-import star
+from . import star
 import os
 import numpy as np
 import math
@@ -52,7 +52,7 @@ def affineremap(filepath, transform, shape, alifilepath=None, outdir="alipy_out"
         try:
             import f2n
         except ImportError:
-            print "Couldn't import f2n -- install it !"
+            print("Couldn't import f2n -- install it !")
             return
         myimage = f2n.f2nimage(numpyarray=data, verbose=False)
         myimage.setzscale("auto", "auto")
@@ -75,7 +75,7 @@ def shape(filepath, hdu=0, verbose=True):
     if hdr["NAXIS"] != 2:
         raise RuntimeError("Hmm, this hdu is not a 2D image !")
     if verbose:
-        print "Image shape of %s : (%i, %i)" % (os.path.basename(filepath), int(hdr["NAXIS1"]), int(hdr["NAXIS2"]))
+        print("Image shape of %s : (%i, %i)" % (os.path.basename(filepath), int(hdr["NAXIS1"]), int(hdr["NAXIS2"])))
     return (int(hdr["NAXIS1"]), int(hdr["NAXIS2"]))
 
 
@@ -86,15 +86,15 @@ def fromfits(infilename, hdu=0, verbose=True):
     """
 
     if verbose:
-        print "Reading %s ..." % (os.path.basename(infilename))
+        print("Reading %s ..." % (os.path.basename(infilename)))
 
     pixelarray, hdr = pyfits.getdata(infilename, hdu, header=True)
     pixelarray = np.asarray(pixelarray).transpose()
 
     pixelarrayshape = pixelarray.shape
     if verbose:
-        print "FITS import (%i, %i) BITPIX %s / %s" % (
-        pixelarrayshape[0], pixelarrayshape[1], hdr["BITPIX"], str(pixelarray.dtype.name))
+        print("FITS import (%i, %i) BITPIX %s / %s" % (
+        pixelarrayshape[0], pixelarrayshape[1], hdr["BITPIX"], str(pixelarray.dtype.name)))
 
     return pixelarray, hdr
 
@@ -107,7 +107,7 @@ def tofits(outfilename, pixelarray, hdr=None, verbose=True):
     """
     pixelarrayshape = pixelarray.shape
     if verbose:
-        print "FITS export (%i, %i) %s ..." % (pixelarrayshape[0], pixelarrayshape[1], str(pixelarray.dtype.name))
+        print("FITS export (%i, %i) %s ..." % (pixelarrayshape[0], pixelarrayshape[1], str(pixelarray.dtype.name)))
 
     if pixelarray.dtype.name == "bool":
         pixelarray = np.cast["uint8"](pixelarray)
@@ -123,7 +123,7 @@ def tofits(outfilename, pixelarray, hdr=None, verbose=True):
     hdu.writeto(outfilename)
 
     if verbose:
-        print "Wrote %s" % outfilename
+        print("Wrote %s" % outfilename)
 
 
 def irafalign(filepath, uknstarlist, refstarlist, shape, alifilepath=None, outdir="alipy_out", makepng=False, hdu=0,
@@ -160,13 +160,13 @@ def irafalign(filepath, uknstarlist, refstarlist, shape, alifilepath=None, outdi
     try:
         from pyraf import iraf
     except ImportError:
-        print "Couldn't import pyraf !"
+        print("Couldn't import pyraf !")
         return
 
     assert len(uknstarlist) == len(refstarlist)
     if len(uknstarlist) < 2:
         if verbose:
-            print "Not enough stars for using geomap !"
+            print("Not enough stars for using geomap !")
         return
 
     basename = os.path.splitext(os.path.basename(filepath))[0]
@@ -229,8 +229,8 @@ def irafalign(filepath, uknstarlist, refstarlist, shape, alifilepath=None, outdi
     if mapscale[0] != mapscale[1]:
         raise RuntimeError("Error reading geomap scale")
     if verbose:
-        print "IRAF geomap : Rotation %+11.6f [deg], scale %8.6f, RMS %.3f [pixel]" % (
-        geomapangle, geomapscale, geomaprms)
+        print("IRAF geomap : Rotation %+11.6f [deg], scale %8.6f, RMS %.3f [pixel]" % (
+        geomapangle, geomapscale, geomaprms))
 
     # Step 3
 
@@ -251,13 +251,13 @@ def irafalign(filepath, uknstarlist, refstarlist, shape, alifilepath=None, outdi
     iraf.gregister.fluxconserve = "yes"
 
     if verbose:
-        print "IRAF gregister ..."
+        print("IRAF gregister ...")
 
     regblabla = iraf.gregister(input='%s[%s]' % (filepath, hdu), output=alifilepath, database=geodatabasepath,
                                transform="broccoli", Stdout=1)
 
     if verbose:
-        print "IRAF gregister done !"
+        print("IRAF gregister done !")
 
     if os.path.isfile(geomapinpath):
         os.remove(geomapinpath)
@@ -268,7 +268,7 @@ def irafalign(filepath, uknstarlist, refstarlist, shape, alifilepath=None, outdi
         try:
             import f2n
         except ImportError:
-            print "Couldn't import f2n -- install it !"
+            print("Couldn't import f2n -- install it !")
             return
         myimage = f2n.fromfits(alifilepath, verbose=False)
         myimage.setzscale("auto", "auto")

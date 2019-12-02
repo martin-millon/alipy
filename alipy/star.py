@@ -191,7 +191,7 @@ def readmancat(mancatfilepath, verbose="True"):
         nbelements = len(elements)
 
         if nbelements != 3 and nbelements != 4:
-            print("Format error on line", i + 1, "of :")
+            print(("Format error on line", i + 1, "of :"))
             print(mancatfilepath)
             print("The line looks like this :")
             print(line)
@@ -207,8 +207,8 @@ def readmancat(mancatfilepath, verbose="True"):
             flux = -1.0
 
         if name in knownnames:
-            print("Error in %s" % (mancatfilepath))
-            print("The name '%s' (line %i) is already taken." % (name, i + 1))
+            print(("Error in %s" % (mancatfilepath)))
+            print(("The name '%s' (line %i) is already taken." % (name, i + 1)))
             print("This is insane, bye !")
             sys.exit(1)
         knownnames.append(name)
@@ -217,8 +217,8 @@ def readmancat(mancatfilepath, verbose="True"):
         table.append(Star(x=x, y=y, name=name, flux=flux))
 
     if verbose:
-        print("I've read", len(table), "sources from",
-              os.path.split(mancatfilepath)[1])
+        print(("I've read", len(table), "sources from",
+              os.path.split(mancatfilepath)[1]))
     return table
 
 
@@ -273,7 +273,7 @@ def readsexcat(sexcat, hdu=0, verbose=True,
             sys.exit(1)
 
         if verbose:
-            print("Reading %s " % (os.path.split(sexcat)[1]))
+            print(("Reading %s " % (os.path.split(sexcat)[1])))
         mycat = asciidata.open(sexcat)
 
     else:  # then it's already a asciidata object
@@ -286,16 +286,16 @@ def readsexcat(sexcat, hdu=0, verbose=True,
     availablefields = [col.colname for col in mycat]
     for field in minimalfields:
         if field not in availablefields:
-            print("Field %s not available in your catalog file !" % (field))
+            print(("Field %s not available in your catalog file !" % (field)))
             sys.exit(1)
 
     if verbose:
-        print("Number of sources in catalog : %i" % (mycat.nrows))
+        print(("Number of sources in catalog : %i" % (mycat.nrows)))
 
     extnumbers = np.unique(mycat['EXT_NUMBER'].tonumpy())
     if verbose:
-        print("EXT_NUMBER values found in catalog : %s" %
-              (", ".join(["%i" % val for val in extnumbers])))
+        print(("EXT_NUMBER values found in catalog : %s" %
+              (", ".join(["%i" % val for val in extnumbers]))))
 
     if len(extnumbers) > 1 and hdu == 0:
         print(("Looks like we have several FITS extensions. "
@@ -335,7 +335,7 @@ def readsexcat(sexcat, hdu=0, verbose=True,
             returnlist.append(newstar)
 
     if verbose:
-        print("I've selected %i sources" % (len(returnlist)))
+        print(("I've selected %i sources" % (len(returnlist))))
 
     return returnlist
 
@@ -560,12 +560,12 @@ def identify(uknstars, refstars,
         minok).flatten()  # indexes of uknstars with matches
 
     if verbose:
-        print(("%i/%i stars with distance < r "
+        print((("%i/%i stars with distance < r "
                "= %.1f (mean %.1f, "
                "median %.1f, std %.1f)") % (np.sum(minok), len(uknstars), r,
                                             np.mean(mindists[minok]),
                                             np.median(mindists[minok]),
-                                            np.std(mindists[minok])))
+                                            np.std(mindists[minok]))))
     matchuknstars = []
     matchrefstars = []
 
@@ -581,8 +581,8 @@ def identify(uknstars, refstars,
             pass  # Then there is a companion, we skip it.
 
     if verbose:
-        print("Filtered for companions, keeping %i/%i matches" %
-              (len(matchuknstars), np.sum(minok)))
+        print(("Filtered for companions, keeping %i/%i matches" %
+              (len(matchuknstars), np.sum(minok))))
 
     if getstars == True:
         return (matchuknstars, matchrefstars)

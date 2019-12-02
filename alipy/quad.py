@@ -132,9 +132,9 @@ def makequads1(starlist, n=7, s=0, d=50.0, verbose=True):
             quadlist.append(Quad(fourstars))
 
     if verbose:
-        print(("Made %4i quads from %4i "
+        print((("Made %4i quads from %4i "
                "stars (combi n=%i s=%i d=%.1f)") % (len(quadlist),
-                                                    len(starlist), n, s, d))
+                                                    len(starlist), n, s, d)))
     return quadlist
 
 
@@ -171,10 +171,10 @@ def makequads2(starlist, f=5.0, n=6, s=0, d=50.0, verbose=True):
                     quadlist.append(Quad(fourstars))
 
     if verbose:
-        print(("Made %4i quads from %4i stars "
+        print((("Made %4i quads from %4i stars "
                "(combi sub f=%.1f n=%i s=%i d=%.1f)") % (len(quadlist),
                                                          len(starlist),
-                                                         f, n, s, d))
+                                                         f, n, s, d)))
     return quadlist
 
 
@@ -196,8 +196,8 @@ def removeduplicates(quadlist, verbose=True):
     ui[1:] = (diff >= 0.000001).any(axis=1)
     # print hasharray[ui==False]
     if verbose:
-        print("Removing %i/%i duplicates" % (len(quadlist) - np.sum(ui),
-                                             len(quadlist)))
+        print(("Removing %i/%i duplicates" % (len(quadlist) - np.sum(ui),
+                                             len(quadlist))))
 
     return [quad for (quad, u) in zip(quadlist, ui) if u == True]
 
@@ -215,10 +215,10 @@ def proposecands(uknquadlist, refquadlist, n=5, verbose=True):
         return []
 
     if verbose:
-        print(("Finding %i best candidates "
+        print((("Finding %i best candidates "
                "among %i x %i (ukn x ref)") % (n,
                                                len(uknquadlist), 
-                                               len(refquadlist)))
+                                               len(refquadlist))))
     uknhashs = np.array([q.hash for q in uknquadlist])
     refhashs = np.array([q.hash for q in refquadlist])
 
@@ -232,7 +232,7 @@ def proposecands(uknquadlist, refquadlist, n=5, verbose=True):
     candlist = []
     nmax = len(uknbestindexes)
     if verbose:
-        print("We have a maximum of %i quad pairs" % (nmax))
+        print(("We have a maximum of %i quad pairs" % (nmax)))
     for i in range(min(n, nmax)):
 
         cand = {"uknquad": uknquadlist[uknbestindexes[i]],
@@ -243,9 +243,9 @@ def proposecands(uknquadlist, refquadlist, n=5, verbose=True):
 
         candlist.append(cand)
         if verbose:
-            print("Cand %2i (dist. %12.8f) : %s" % (i + 1,
+            print(("Cand %2i (dist. %12.8f) : %s" % (i + 1,
                                                     cand["dist"],
-                                                    str(cand["trans"])))
+                                                    str(cand["trans"]))))
     return candlist
 
 

@@ -97,7 +97,7 @@ class ImgCat:
         # if not add:
         #    self.quadlist = []
         if verbose:
-            print("Making more quads, from quadlevel %i ..." % self.quadlevel)
+            print(("Making more quads, from quadlevel %i ..." % self.quadlevel))
         if self.quadlevel == 0:
             self.quadlist.extend(
                 quad.makequads1(self.starlist, n=7,

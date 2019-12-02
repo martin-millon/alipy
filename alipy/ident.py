@@ -127,12 +127,12 @@ class Identification:
             # refit the transform on them :
             if verbose:
                 print("Refitting transform (before/after) :")
-                print(self.trans)
+                print((self.trans))
             newtrans = star.fitstars(self.uknmatchstars, self.refmatchstars)
             if newtrans != None:
                 self.trans = newtrans
                 if verbose:
-                    print(self.trans)
+                    print((self.trans))
             # Generating final matched star lists :
             (self.uknmatchstars, self.refmatchstars) = \
                                        star.identify(self.ukn.starlist,
@@ -170,10 +170,10 @@ class Identification:
         self.stdfluxratio = float(np.std(fluxratios))
 
         if verbose:
-            print(("Computed flux ratio from %i matches : "
+            print((("Computed flux ratio from %i matches : "
                    "median %.2f, std %.2f") % (len(reffluxes),
                                                self.medfluxratio,
-                                               self.stdfluxratio))
+                                               self.stdfluxratio)))
 
     def showmatch(self, show=False, verbose=True):
         """
@@ -275,7 +275,7 @@ def run(ref, ukns, hdu=0, visu=True, skipsaturated=False,
     """
 
     if verbose:
-        print(10 * "#", " Preparing reference ...")
+        print((10 * "#", " Preparing reference ..."))
     ref = imgcat.ImgCat(ref, hdu=hdu)
     ref.makecat(rerun=sexrerun, keepcat=sexkeepcat, verbose=verbose)
     ref.makestarlist(skipsaturated=skipsaturated, n=n, verbose=verbose)
@@ -288,7 +288,7 @@ def run(ref, ukns, hdu=0, visu=True, skipsaturated=False,
     for ukn in ukns:
 
         if verbose:
-            print(10 * "#", "Processing %s" % (ukn))
+            print((10 * "#", "Processing %s" % (ukn)))
 
         ukn = imgcat.ImgCat(ukn, hdu=hdu)
         ukn.makecat(rerun=sexrerun, keepcat=sexkeepcat, verbose=verbose)
