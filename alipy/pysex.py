@@ -36,11 +36,11 @@ def _check_files(conf_file, conf_args, verbose=True):
         if verbose:
             print('No filter file found, using default filter')
         f = open('.pysex.conv', 'w')
-        print("""CONV NORM
-# 3x3 ``all-ground'' convolution mask with FWHM = 2 pixels.
-1 2 1
-2 4 2
-1 2 1""", file=f)
+        f.write("""CONV NORM \n
+# 3x3 ``all-ground'' convolution mask with FWHM = 2 pixels.\n
+1 2 1\n
+2 4 2\n
+1 2 1\n""")
         f.close()
         conf_args['FILTER_NAME'] = '.pysex.conv'
     if 'STARNNW_NAME' not in conf_args or \
@@ -48,7 +48,7 @@ def _check_files(conf_file, conf_args, verbose=True):
         if verbose:
             print('No NNW file found, using default NNW config')
         f = open('.pysex.nnw', 'w')
-        print("""NNW
+        f.write("""NNW
 # Neural Network Weights for the SExtractor star/galaxy classifier (V1.3)
 # inputs:     9 for profile parameters + 1 for seeing.
 # outputs:      ``Stellarity index'' (0.0 to 1.0)
@@ -75,7 +75,7 @@ def _check_files(conf_file, conf_args, verbose=True):
 
 
  0.00000e+00
- 1.00000e+00""", file=f)
+ 1.00000e+00""")
         f.close()
         conf_args['STARNNW_NAME'] = '.pysex.nnw'
 
@@ -89,13 +89,13 @@ def _setup(conf_file, params):
         pass  # already created in _check_files
 
     f = open('.pysex.param', 'w')
-    print('\n'.join(params), file=f)
+    f.write('\n'.join(params))
     f.close()
 
 
 def _setup_img(image, name):
     if not type(image) == type(''):
-        import pyfits
+        import astropy.io.fits as pyfits
         pyfits.writeto(name, image)
 
 
@@ -179,13 +179,13 @@ def run(image='', imageref='', params=[], conf_file=None,
         verbose = True
     _cleanup()
     if not type(image) == type(''):
-        import pyfits
+        import astropy.io.fits as pyfits
         im_name = '.pysex.fits'
         pyfits.writeto(im_name, image.transpose())
     else:
         im_name = image
     if not type(imageref) == type(''):
-        import pyfits
+        import astropy.io.fits as pyfits
         imref_name = '.pysex.ref.fits'
         pyfits.writeto(imref_name, imageref.transpose())
     else:

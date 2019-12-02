@@ -3,7 +3,7 @@ import os
 import numpy as np
 import math
 import scipy.ndimage
-import pyfits
+import astropy.io.fits as pyfits
 import csv
 
 
